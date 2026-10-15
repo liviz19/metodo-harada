@@ -196,6 +196,7 @@ async function exportPdfFromPage() {
     scrollBehavior: root.style.scrollBehavior
   };
 
+  document.body.classList.add('pdf-export');
   root.style.overflowX = 'visible';
   root.style.overflowY = 'visible';
   root.style.width = 'auto';
@@ -226,6 +227,7 @@ async function exportPdfFromPage() {
     console.error('Error creando PDF:', error);
     window.print();
   } finally {
+    document.body.classList.remove('pdf-export');
     root.style.overflowX = previous.overflowX;
     root.style.overflowY = previous.overflowY;
     root.style.width = previous.width;
@@ -236,21 +238,6 @@ async function exportPdfFromPage() {
 
 const bakBtn = $('#bak');
 if (bakBtn) bakBtn.onclick = () => exportPdfFromPage();
-
-const impInput = $('#imp');
-if (impInput) {
-  impInput.onchange = e => {
-    const f = e.target.files[0];
-    if (!f) return;
-    const r = new FileReader();
-    r.onload = () => {
-      try { const d = JSON.parse(r.result); if (!valid(d)) throw 0; S = d; save(); build(); }
-      catch (x) { alert('El archivo no tiene el formato del método Harada.'); }
-    };
-    r.readAsText(f);
-    e.target.value = '';
-  };
-}
 
 let rstTimer;
 function resetLabel() {

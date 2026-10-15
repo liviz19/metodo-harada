@@ -32,6 +32,7 @@ header {
 h1 { margin: 0; font-size: 1.5rem; font-weight: 700; letter-spacing: -.01em; }
 .sub { margin-top: 2px; color: var(--mute); font-size: .85rem; }
 .tools { display: flex; gap: 6px; flex-wrap: wrap; }
+body.pdf-export .no-export { display: none !important; }
 button, .btn {
   font: inherit;
   font-size: .8rem;
