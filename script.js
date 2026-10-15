@@ -215,21 +215,12 @@ async function exportPdfFromPage() {
 
     const imgData = canvas.toDataURL('image/png');
     const pdf = new window.jspdf.jsPDF({
-      orientation: 'portrait',
+      orientation: 'landscape',
       unit: 'pt',
-      format: 'a4'
+      format: [canvas.width, canvas.height]
     });
 
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-    const margin = 20;
-    const scale = Math.min((pageWidth - margin * 2) / canvas.width, (pageHeight - margin * 2) / canvas.height);
-    const imgWidth = canvas.width * scale;
-    const imgHeight = canvas.height * scale;
-    const x = (pageWidth - imgWidth) / 2;
-    const y = (pageHeight - imgHeight) / 2;
-
-    pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight, undefined, 'FAST');
+    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height, undefined, 'FAST');
     pdf.save('harada-copia.pdf');
   } catch (error) {
     console.error('Error creando PDF:', error);
