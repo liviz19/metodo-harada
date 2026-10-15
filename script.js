@@ -188,6 +188,7 @@ async function exportPdfFromPage() {
   }
 
   const root = document.documentElement;
+  const previousView = view;
   const previous = {
     overflowX: root.style.overflowX,
     overflowY: root.style.overflowY,
@@ -196,6 +197,7 @@ async function exportPdfFromPage() {
     scrollBehavior: root.style.scrollBehavior
   };
 
+  if (view !== 'all') setView('all');
   document.body.classList.add('pdf-export');
   document.body.style.paddingTop = '0px';
   document.body.style.paddingBottom = '0px';
@@ -217,7 +219,6 @@ async function exportPdfFromPage() {
 
     const captureNode = document.body;
     const canvas = await window.html2canvas(captureNode, {
-      backgroundColor: '#fbf9fd',
       scale: 2,
       useCORS: true,
       scrollX: 0,
@@ -261,6 +262,7 @@ async function exportPdfFromPage() {
     root.style.width = previous.width;
     root.style.height = previous.height;
     root.style.scrollBehavior = previous.scrollBehavior;
+    if (view !== previousView) setView(previousView);
   }
 }
 
