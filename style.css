@@ -116,6 +116,7 @@ nav button i {
   padding: .5cqw;
   border-radius: 1.2cqw;
   background: #fff;
+  border: 1px solid hsl(var(--h, 262) 26% 90%);
   color: hsl(var(--h, 262) 25% 30%);
   font-size: clamp(7px, 1.35cqw, 14px);
   line-height: 1.2;
@@ -124,14 +125,15 @@ nav button i {
 }
 .cell:focus-within { box-shadow: 0 0 0 2px hsl(var(--h, 262) 55% 72%); }
 .cell.act:hover { background: hsl(var(--h) 60% 98%); }
-.cell.sub { background: hsl(var(--h) 65% 86%); font-weight: 600; }
+.cell.sub { background: hsl(var(--h) 65% 86%); border-color: hsl(var(--h) 30% 82%); font-weight: 600; }
 .cell.goal {
   background: var(--goal);
+  border-color: hsl(262 40% 82%);
   color: var(--goal-ink);
   font-weight: 700;
   font-size: clamp(8px, 1.7cqw, 17px);
 }
-.cell.done { background: hsl(var(--h) 50% 80%); }
+.cell.done { background: hsl(var(--h) 50% 80%); border-color: hsl(var(--h) 35% 72%); }
 
 .t {
   flex: 1;
