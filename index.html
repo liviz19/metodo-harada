@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Método Harada</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>Método Harada</h1>
+        <div class="sub" id="total"></div>
+      </div>
+      <div class="tools">
+        <button id="bak" type="button">Guardar copia</button>
+        <label class="btn"
+          >Importar<input id="imp" type="file" accept=".json" hidden
+        /></label>
+        <button id="rst" type="button">Reiniciar</button>
+      </div>
+    </header>
+
+    <nav id="nav" aria-label="Vistas"></nav>
+    <main class="board" id="board" data-view="all"></main>
+
+    <p class="foot">
+      Escribe en cualquier casilla. Las áreas del centro se copian solas a su
+      bloque de 8 acciones. Pulsa el círculo de una acción para marcarla como
+      hecha. Todo se guarda en tu navegador.
+    </p>
+
+    <script src="script.js"></script>
+  </body>
+</html>
