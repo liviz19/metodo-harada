@@ -197,6 +197,8 @@ async function exportPdfFromPage() {
   };
 
   document.body.classList.add('pdf-export');
+  document.body.style.paddingTop = '0px';
+  document.body.style.paddingBottom = '0px';
   root.style.overflowX = 'visible';
   root.style.overflowY = 'visible';
   root.style.width = 'auto';
@@ -211,7 +213,8 @@ async function exportPdfFromPage() {
       scrollX: 0,
       scrollY: 0,
       windowWidth: document.documentElement.scrollWidth,
-      windowHeight: document.documentElement.scrollHeight
+      windowHeight: document.documentElement.scrollHeight,
+      ignoreElements: element => element.classList && element.classList.contains('no-export')
     });
 
     const imgData = canvas.toDataURL('image/png');
@@ -228,6 +231,8 @@ async function exportPdfFromPage() {
     window.print();
   } finally {
     document.body.classList.remove('pdf-export');
+    document.body.style.paddingTop = '';
+    document.body.style.paddingBottom = '';
     root.style.overflowX = previous.overflowX;
     root.style.overflowY = previous.overflowY;
     root.style.width = previous.width;
