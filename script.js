@@ -234,40 +234,50 @@ async function exportPdfFromPage() {
   }
 }
 
-$('#bak').onclick = () => exportPdfFromPage();
-$('#imp').onchange = e => {
-  const f = e.target.files[0];
-  if (!f) return;
-  const r = new FileReader();
-  r.onload = () => {
-    try { const d = JSON.parse(r.result); if (!valid(d)) throw 0; S = d; save(); build(); }
-    catch (x) { alert('El archivo no tiene el formato del método Harada.'); }
+const bakBtn = $('#bak');
+if (bakBtn) bakBtn.onclick = () => exportPdfFromPage();
+
+const impInput = $('#imp');
+if (impInput) {
+  impInput.onchange = e => {
+    const f = e.target.files[0];
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = () => {
+      try { const d = JSON.parse(r.result); if (!valid(d)) throw 0; S = d; save(); build(); }
+      catch (x) { alert('El archivo no tiene el formato del método Harada.'); }
+    };
+    r.readAsText(f);
+    e.target.value = '';
   };
-  r.readAsText(f);
-  e.target.value = '';
-};
+}
+
 let rstTimer;
 function resetLabel() {
   const b = $('#rst');
+  if (!b) return;
   delete b.dataset.sure;
   b.textContent = 'Reiniciar';
 }
-$('#rst').onclick = () => {
-  const b = $('#rst');
-  if (!b.dataset.sure) {
-    b.dataset.sure = '1';
-    b.textContent = 'Pulsa otra vez para borrar todo';
-    rstTimer = setTimeout(resetLabel, 3500);
-    return;
-  }
-  clearTimeout(rstTimer);
-  clearTimeout(timer);
-  resetLabel();
-  S = blank();
-  view = 'all';
-  try { localStorage.removeItem(KEY); } catch (e) {}
-  build();
-};
+const rstBtn = $('#rst');
+if (rstBtn) {
+  rstBtn.onclick = () => {
+    const b = $('#rst');
+    if (!b.dataset.sure) {
+      b.dataset.sure = '1';
+      b.textContent = 'Pulsa otra vez para borrar todo';
+      rstTimer = setTimeout(resetLabel, 3500);
+      return;
+    }
+    clearTimeout(rstTimer);
+    clearTimeout(timer);
+    resetLabel();
+    S = blank();
+    view = 'all';
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    build();
+  };
+}
 
 build();
 new ResizeObserver(fitAll).observe(board);
