@@ -25,6 +25,10 @@ El método Harada ayuda a transformar un objetivo grande en pasos concretos y ma
 - seguir qué está hecho y qué falta
 - guardar un avance visual del trabajo
 
+## 🌐 Enlace directo
+
+- App publicada: https://liviz19.github.io/metodo-harada/
+
 ## 🚀 Cómo usarlo
 
 1. Abre la app en el navegador.
