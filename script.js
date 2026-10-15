@@ -181,21 +181,69 @@ board.addEventListener('focusin', e => {
   }
 });
 
-async function saveFile(blob, filename) {
+async function exportPdfFromPage() {
+  if (!window.html2canvas || !window.jspdf) {
+    window.print();
+    return;
+  }
+
+  const root = document.documentElement;
+  const previous = {
+    overflowX: root.style.overflowX,
+    overflowY: root.style.overflowY,
+    width: root.style.width,
+    height: root.style.height,
+    scrollBehavior: root.style.scrollBehavior
+  };
+
+  root.style.overflowX = 'visible';
+  root.style.overflowY = 'visible';
+  root.style.width = 'auto';
+  root.style.height = 'auto';
+  root.style.scrollBehavior = 'auto';
+
   try {
-    const dl = window.claude && await window.claude.use('downloads');
-    if (dl) { await dl.save({ filename, data: blob }); return; }
-  } catch (e) { if (e && e.code === 'declined') return; }
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = filename;
-  document.body.append(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    const canvas = await window.html2canvas(document.body, {
+      backgroundColor: '#fbf9fd',
+      scale: 2,
+      useCORS: true,
+      scrollX: 0,
+      scrollY: 0,
+      windowWidth: document.documentElement.scrollWidth,
+      windowHeight: document.documentElement.scrollHeight
+    });
+
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new window.jspdf.jsPDF({
+      orientation: 'portrait',
+      unit: 'pt',
+      format: 'a4'
+    });
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const margin = 20;
+    const scale = Math.min((pageWidth - margin * 2) / canvas.width, (pageHeight - margin * 2) / canvas.height);
+    const imgWidth = canvas.width * scale;
+    const imgHeight = canvas.height * scale;
+    const x = (pageWidth - imgWidth) / 2;
+    const y = (pageHeight - imgHeight) / 2;
+
+    pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight, undefined, 'FAST');
+    pdf.save('harada-copia.pdf');
+  } catch (error) {
+    console.error('Error creando PDF:', error);
+    window.print();
+  } finally {
+    root.style.overflowX = previous.overflowX;
+    root.style.overflowY = previous.overflowY;
+    root.style.width = previous.width;
+    root.style.height = previous.height;
+    root.style.scrollBehavior = previous.scrollBehavior;
+  }
 }
 
-$('#bak').onclick = () => saveFile(new Blob([JSON.stringify(S, null, 2)], { type: 'application/json' }), 'harada.json');
+$('#bak').onclick = () => exportPdfFromPage();
 $('#imp').onchange = e => {
   const f = e.target.files[0];
   if (!f) return;
