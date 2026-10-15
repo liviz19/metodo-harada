@@ -205,7 +205,16 @@ async function exportPdfFromPage() {
   root.style.height = 'auto';
   root.style.scrollBehavior = 'auto';
 
+  const emptyActionCells = [];
   try {
+    document.querySelectorAll('.cell.act .t').forEach(t => {
+      if (!t.textContent.trim()) {
+        emptyActionCells.push(t);
+        t.textContent = '---';
+        fit(t);
+      }
+    });
+
     const captureNode = document.body;
     const canvas = await window.html2canvas(captureNode, {
       backgroundColor: '#fbf9fd',
@@ -222,7 +231,7 @@ async function exportPdfFromPage() {
     const pdf = new window.jspdf.jsPDF({
       orientation: 'landscape',
       unit: 'pt',
-      format: [canvas.width, canvas.height]
+      format: 'a4'
     });
 
     const pageWidth = pdf.internal.pageSize.getWidth();
@@ -239,6 +248,11 @@ async function exportPdfFromPage() {
     console.error('Error creando PDF:', error);
     window.print();
   } finally {
+    emptyActionCells.forEach(t => {
+      t.textContent = '';
+      t.style.fontSize = '';
+      t.style.overflowWrap = '';
+    });
     document.body.classList.remove('pdf-export');
     document.body.style.paddingTop = '';
     document.body.style.paddingBottom = '';
