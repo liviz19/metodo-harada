@@ -36,8 +36,7 @@ function cell(cls, text, ph, h, attrs) {
   if (h != null) c.style.setProperty('--h', h);
   const t = document.createElement('div');
   t.className = 't';
-  const placeholder = cls.includes('act') ? '--' : ph;
-  t.dataset.ph = placeholder;
+  t.dataset.ph = ph;
   t.textContent = text;
   t.contentEditable = 'plaintext-only';
   if (t.contentEditable !== 'plaintext-only') t.contentEditable = 'true';
@@ -227,7 +226,15 @@ async function exportPdfFromPage() {
       format: [canvas.width, canvas.height]
     });
 
-    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height, undefined, 'FAST');
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const scale = Math.min((pageWidth - 10) / canvas.width, (pageHeight - 10) / canvas.height);
+    const drawWidth = canvas.width * scale;
+    const drawHeight = canvas.height * scale;
+    const x = (pageWidth - drawWidth) / 2;
+    const y = (pageHeight - drawHeight) / 2;
+
+    pdf.addImage(imgData, 'PNG', x, y, drawWidth, drawHeight, undefined, 'FAST');
     pdf.save('harada-copia.pdf');
   } catch (error) {
     console.error('Error creando PDF:', error);

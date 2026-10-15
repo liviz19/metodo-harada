@@ -38,17 +38,24 @@ body.pdf-export .foot {
 }
 body.pdf-export header {
   margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
 }
 body.pdf-export nav {
   display: block !important;
   width: 100% !important;
-  margin-bottom: 10px !important;
+  margin-bottom: 8px !important;
 }
 body.pdf-export #total {
   display: block !important;
 }
 body.pdf-export .board {
   margin-top: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+  aspect-ratio: 1 / 1 !important;
+}
+body.pdf-export .block {
+  min-height: 0 !important;
 }
 button, .btn {
   font: inherit;
@@ -150,6 +157,7 @@ nav button i {
   cursor: text;
 }
 .t:empty::before { content: attr(data-ph); color: hsl(var(--h, 262) 15% 72%); }
+body.pdf-export .cell.act .t:empty::before { content: '---'; color: hsl(var(--h, 262) 15% 72%); }
 .cell.goal .t:empty::before { color: hsl(262 25% 60%); }
 
 .chk {
