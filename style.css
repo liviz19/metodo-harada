@@ -33,18 +33,19 @@ h1 { margin: 0; font-size: 1.5rem; font-weight: 700; letter-spacing: -.01em; }
 .sub { margin-top: 2px; color: var(--mute); font-size: .85rem; }
 .tools { display: flex; gap: 6px; flex-wrap: wrap; }
 body.pdf-export .no-export,
-body.pdf-export .foot,
-body.pdf-export nav,
-body.pdf-export .sub,
-body.pdf-export header > div:first-child .sub {
+body.pdf-export .foot {
   display: none !important;
 }
 body.pdf-export header {
   margin-bottom: 0 !important;
 }
-body.pdf-export {
-  padding-top: 8px !important;
-  padding-bottom: 0 !important;
+body.pdf-export nav {
+  display: block !important;
+  width: 100% !important;
+  margin-bottom: 10px !important;
+}
+body.pdf-export #total {
+  display: block !important;
 }
 body.pdf-export .board {
   margin-top: 0 !important;
