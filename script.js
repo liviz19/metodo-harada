@@ -206,16 +206,15 @@ async function exportPdfFromPage() {
   root.style.scrollBehavior = 'auto';
 
   try {
-    const exportRoot = document.querySelector('#board');
-    const captureNode = exportRoot || document.body;
+    const captureNode = document.body;
     const canvas = await window.html2canvas(captureNode, {
       backgroundColor: '#fbf9fd',
       scale: 2,
       useCORS: true,
       scrollX: 0,
       scrollY: 0,
-      windowWidth: captureNode.scrollWidth,
-      windowHeight: captureNode.scrollHeight,
+      windowWidth: document.body.scrollWidth,
+      windowHeight: document.body.scrollHeight,
       ignoreElements: element => element.classList && element.classList.contains('no-export')
     });
 
@@ -228,7 +227,7 @@ async function exportPdfFromPage() {
 
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
-    const scale = Math.min((pageWidth - 10) / canvas.width, (pageHeight - 10) / canvas.height);
+    const scale = Math.min((pageWidth - 20) / canvas.width, (pageHeight - 20) / canvas.height);
     const drawWidth = canvas.width * scale;
     const drawHeight = canvas.height * scale;
     const x = (pageWidth - drawWidth) / 2;
