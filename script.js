@@ -36,7 +36,8 @@ function cell(cls, text, ph, h, attrs) {
   if (h != null) c.style.setProperty('--h', h);
   const t = document.createElement('div');
   t.className = 't';
-  t.dataset.ph = ph;
+  const placeholder = cls.includes('act') ? '..' : ph;
+  t.dataset.ph = placeholder;
   t.textContent = text;
   t.contentEditable = 'plaintext-only';
   if (t.contentEditable !== 'plaintext-only') t.contentEditable = 'true';
