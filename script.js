@@ -206,14 +206,16 @@ async function exportPdfFromPage() {
   root.style.scrollBehavior = 'auto';
 
   try {
-    const canvas = await window.html2canvas(document.body, {
+    const exportRoot = document.querySelector('#board');
+    const captureNode = exportRoot || document.body;
+    const canvas = await window.html2canvas(captureNode, {
       backgroundColor: '#fbf9fd',
       scale: 2,
       useCORS: true,
       scrollX: 0,
       scrollY: 0,
-      windowWidth: document.documentElement.scrollWidth,
-      windowHeight: document.documentElement.scrollHeight,
+      windowWidth: captureNode.scrollWidth,
+      windowHeight: captureNode.scrollHeight,
       ignoreElements: element => element.classList && element.classList.contains('no-export')
     });
 
